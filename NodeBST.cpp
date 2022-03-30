@@ -1,6 +1,14 @@
+/*
+Integrantes:
+Claudia Fiorentino Andrade - 42005302
+João Victor Ferreira Pimenta - 42005876
+Joyce Cui - 42017157
+Ryan Marco Andrade dos Santos - 42080223
+Victor Prado Chaves - 32070772
+*/
+
 // NodeBST.cpp
 #include "Funcionario.h"
-#include "Funcionario.cpp"
 #include "NodeBST.h"
 #include "Utils.h"
 

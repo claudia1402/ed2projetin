@@ -1,15 +1,22 @@
+/*
+Integrantes:
+Claudia Fiorentino Andrade - 42005302
+João Victor Ferreira Pimenta - 42005876
+Joyce Cui - 42017157
+Ryan Marco Andrade dos Santos - 42080223
+Victor Prado Chaves - 32070772
+*/
+
 // mainBST.cpp
+#include "NodeBST.cpp"
+#include "Funcionario.cpp"
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <fstream>
-#include "vector"
 #include "BST.h"
 #include "BST.cpp"
-#include "NodeBST.h"
-#include "NodeBST.cpp"
-#include "Funcionario.h"
-#include "Funcionario.cpp"
+#include "vector"
 
 // Prototipacao
 void PrintNode(NodeBST* node);
@@ -36,7 +43,7 @@ void PrintNode(NodeBST* node)
 		<< " Altura: " << node->GetHeight()	<< '\n';
 }
 
-void CalcMediaMenu(BST* bst)
+void CalcMediaMenu(BST* bst) //função para calcular o valor do hora de certo funcionário
 {
 	std::string nome;
 	std::cout << "Inserir nome: ";
@@ -44,7 +51,7 @@ void CalcMediaMenu(BST* bst)
 	bst->CalcMedia(nome);
 }
 
-void QntdJornadaMenu(BST* bst)
+void QntdJornadaMenu(BST* bst) //função que determina quantas pessoas poussem a mesma jornada de trabalho
 {
 	int jornada;
 	std::cout << "Inserir jornada: ";
@@ -52,7 +59,7 @@ void QntdJornadaMenu(BST* bst)
 	bst->QntdJornada(jornada);
 }
 
-void QntdUniddMenu(BST* bst)
+void QntdUniddMenu(BST* bst) // função parar determinar quantas pessoas trabalham na mesma unidade
 {
 	std::string unidd;
 	std::cout << "Inserir unidade: ";
@@ -60,7 +67,7 @@ void QntdUniddMenu(BST* bst)
 	bst->QntdUnidd(unidd);
 }
 
-void Insert(BST* bst)
+void Insert(BST* bst) // insere elementos na BST
 {
 	float salario;
 	std::string nome;
@@ -88,27 +95,27 @@ void Insert(BST* bst)
 		std::cout << "*** ERROR! Couldn't insert node!\n";
 }
 
+//  void CreateBST(BST* bst)
+//  {
+//  	std::fstream fin;
+//  	std::vector<std::string> row;
+//  	std::string line, word, temp;
+
+//  	fin.open("remuneracao.csv", std::fstream::in);
+
+//  	while (fin >> temp) 
+//  	{
+//  		row.clear();
+//  		getline(fin, line);
+//  		std::istringstream s(line);
+//  		while (getline(s, word, ','))
+//  		{
+//  			row.push_back(word);
+//  		}
+//  	}
+//  }
+
 void CreateBST(BST* bst)
-{
-	std::fstream fin;
-	std::vector<std::string> row;
-	std::string line, word, temp;
-
-	fin.open("askojdas.csv", std::fstream::in);
-
-	while (fin >> temp) 
-	{
-		row.clear();
-		getline(fin, line);
-		std::istringstream s(line);
-		while (getline(s, word, ','))
-		{
-			row.push_back(word);
-		}
-	}
-}
-
-void CreateBST2(BST* bst)
 {
 	std::string		dadosFunc[4];
 	std::string		line;
@@ -128,7 +135,7 @@ void CreateBST2(BST* bst)
 		while(getline(ss, del,  ','))
 			//dadosFunc[3] = stoi(del);
 
-		funcLinha.SetNome(dadosFunc[0]);
+		funcLinha.SetNome(dadosFunc[0]); //
 		funcLinha.SetUnidd(dadosFunc[2]);
 		funcLinha.SetJornada(stoi(dadosFunc[3])); 
 
@@ -191,7 +198,7 @@ void Successor(BST* bst)
 		std::cout << "*** ERROR! There is no successor of " << num << "!\n";
 }
 
-void FindMin(BST* bst)
+void FindMin(BST* bst) //Encontra o menor valor
 {
 	NodeBST* node = bst->FindMin();
 	if (node)
@@ -203,7 +210,7 @@ void FindMin(BST* bst)
 		std::cout << "*** ERROR! Couldn't find minimum (tree is probably empty...)\n";
 }
 
-void FindMax(BST* bst)
+void FindMax(BST* bst) //Encontra o maior valor
 {
 	NodeBST* node = bst->FindMax();
 	if (node)
@@ -214,46 +221,23 @@ void FindMax(BST* bst)
 	else
 		std::cout << "*** ERROR! Couldn't find maximum (tree is probably empty...)\n";
 }
-/*
-void TraverseInOrder(BST* bst)
-{
-	std::cout << bst->TraverseInOrder() << '\n';
-}
 
-void TraversePreOrder(BST* bst)
-{
-	std::cout << bst->TraversePreOrder() << '\n';
-}
 
-void TraversePostOrder(BST* bst)
-{
-	std::cout << bst->TraversePostOrder() << '\n';
-}
-
-void TraverseBST(NodeBST* node)
-{
-	if (node != nullptr)
-	{
-		TraverseBST(node->GetLeft());
-		PrintNode(node);
-		TraverseBST(node->GetRight());
-	}
-}
-*/
-
-void b_maiorSalario (BST * bst)
+void b_maiorSalario (BST * bst) //Função imprime o maior Salario
 {
 	std::cout << bst -> FindMax() -> GetFunc().GetNome() << std::endl;
 }
 
-void b_menorSalario (BST * bst)
+void b_menorSalario (BST * bst) //Função imprime o menor Salario
 {
 	std::cout << bst -> FindMin() -> GetFunc().GetNome() << std::endl;
 }
 
+
 int main()
 {
 	BST* bst = new BST();
+	CreateBST(bst);
   
 	int option = 0;
 	do

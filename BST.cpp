@@ -1,5 +1,15 @@
+/*
+Integrantes:
+Claudia Fiorentino Andrade - 42005302
+João Victor Ferreira Pimenta - 42005876
+Joyce Cui - 42017157
+Ryan Marco Andrade dos Santos - 42080223
+Victor Prado Chaves - 32070772
+*/
+
 // BST.cpp
 #include "NodeBST.h"
+#include "NodeBST.cpp"
 #include "BST.h"
 #include "Utils.h"
 #include <sstream>
@@ -241,6 +251,7 @@ NodeBST* BST::SearchInternal(NodeBST* node, float &salario) const
 		return SearchInternal(node->GetRight(), salario);
 }
 
+//Pesquisa por nome na BST
 NodeBST* BST::SearchNome(std::string nome) const
 {
 	return SearchInternalNome(m_Root, nome);
@@ -445,6 +456,8 @@ std::string BST::TraverseInOrderInternal(const NodeBST* node) const
 	return "";
 }
 */
+
+//calcula media de salario ganho por hora semanal
 float BST::CalcMedia(std::string nome) 
 {
 	NodeBST*	funcionario;
@@ -458,6 +471,7 @@ float BST::CalcMediaInternal (NodeBST* funcionario)
 	return funcionario -> GetSalario() / funcionario -> GetFunc().GetJornada();
 }
 
+//calcula numero de funcionarios que possuem mesma jornada por meio de um contador para casos iguais
 int BST::QntdJornada(int jornada)
 {
 	NodeBST*	inicio = FindMin();
@@ -478,6 +492,7 @@ int BST::QntdJornadaInternal(NodeBST* node, int cont, int jornada)
 	return cont;
 }
 
+//calcula numero de funcionarios que trabalham na mesma unidade por meio de um contador para casos iguais
 int BST::QntdUnidd(std::string unidd)
 {
 	NodeBST*	inicio = FindMin();

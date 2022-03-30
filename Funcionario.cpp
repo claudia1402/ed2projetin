@@ -1,3 +1,12 @@
+/*
+Integrantes:
+Claudia Fiorentino Andrade - 42005302
+João Victor Ferreira Pimenta - 42005876
+Joyce Cui - 42017157
+Ryan Marco Andrade dos Santos - 42080223
+Victor Prado Chaves - 32070772
+*/
+
 #include "Funcionario.h"
 #include <sstream>
 
@@ -22,7 +31,7 @@ void Funcionario::SetNome(std::string nome){
   f_nome = nome;
 }
 
-//  Unidade onde o funcionario trabalh 
+//  Unidade onde o funcionario trabalha
 std::string Funcionario::GetUnidd(){
   return f_unidade;
 }
