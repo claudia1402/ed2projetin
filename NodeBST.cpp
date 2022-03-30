@@ -1,5 +1,6 @@
 // NodeBST.cpp
 #include "Funcionario.h"
+#include "Funcionario.cpp"
 #include "NodeBST.h"
 #include "Utils.h"
 

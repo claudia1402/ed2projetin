@@ -241,6 +241,23 @@ NodeBST* BST::SearchInternal(NodeBST* node, float &salario) const
 		return SearchInternal(node->GetRight(), salario);
 }
 
+NodeBST* BST::SearchNome(std::string nome) const
+{
+	return SearchInternalNome(m_Root, nome);
+}
+
+NodeBST* BST::SearchInternalNome(NodeBST* node, std::string &nome) const
+{
+	if (node == nullptr)
+		return nullptr;
+	else if (node->GetFunc().GetNome() == nome)
+		return node;
+	else if (node->GetFunc().GetNome() > nome)
+		return SearchInternalNome(node->GetLeft(), nome);
+	else
+		return SearchInternalNome(node->GetRight(), nome);
+}
+
 NodeBST* BST::InsertIterative(float salario, Funcionario funcNovo)
 {
 	NodeBST* newNode = new NodeBST(salario, funcNovo);
@@ -406,4 +423,77 @@ void BST::UpdateParentChild(NodeBST* parent, const NodeBST* child, NodeBST* newC
 
 	if (newChild != nullptr)
 		newChild->SetParent(parent);
+}
+/*
+std::string BST::TraverseInOrder() const
+{
+	return TraverseInOrderInternal(m_Root);
+}
+
+std::string BST::TraverseInOrderInternal(const NodeBST* node) const
+{
+	if (node != nullptr)
+	{
+		std::ostringstream oss;
+		oss << TraverseInOrderInternal(node->GetLeft());
+		oss << node->GetSalario() << '(' << "Nome: " << node->GetFunc().GetNome() << "Cargo: " << node->GetFunc().GetCargo() << "Salario: " << node->GetFunc().GetSalario() << ") ";
+		oss << TraverseInOrderInternal(node->GetRight());
+		return oss.str();
+	}
+
+	//return "null ";
+	return "";
+}
+*/
+float BST::CalcMedia(std::string nome) 
+{
+	NodeBST*	funcionario;
+
+	funcionario = SearchNome (nome);
+	return CalcMediaInternal (funcionario);
+}
+
+float BST::CalcMediaInternal (NodeBST* funcionario)
+{
+	return funcionario -> GetSalario() / funcionario -> GetFunc().GetJornada();
+}
+
+int BST::QntdJornada(int jornada)
+{
+	NodeBST*	inicio = FindMin();
+	int			cont = 0;
+
+	return QntdJornadaInternal (inicio, cont, jornada);
+}
+
+int BST::QntdJornadaInternal(NodeBST* node, int cont, int jornada)
+{
+	while (node != nullptr)
+	{
+		if (node->GetFunc().GetJornada() == jornada)
+			cont++;
+		
+		node = Successor(node->GetSalario());
+	}
+	return cont;
+}
+
+int BST::QntdUnidd(std::string unidd)
+{
+	NodeBST*	inicio = FindMin();
+	int			cont = 0;
+
+	return QntdUniddInternal (inicio, cont, unidd);
+}
+
+int BST::QntdUniddInternal(NodeBST* node, int cont, std::string unidd)
+{
+	while (node != nullptr)
+	{
+		if (node->GetFunc().GetUnidd() == unidd)
+			cont++;
+		
+		node = Successor (node->GetSalario());
+	}
+	return cont;
 }

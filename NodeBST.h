@@ -5,7 +5,7 @@
 
 #include <string>
 #include "Funcionario.h"
-
+#include "Funcionario.cpp"
 class NodeBST
 {
 public:

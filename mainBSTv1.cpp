@@ -3,10 +3,13 @@
 #include <sstream>
 #include <string>
 #include <fstream>
-#include "BST.h"
-#include "Arquivo.h"
 #include "vector"
-
+#include "BST.h"
+#include "BST.cpp"
+#include "NodeBST.h"
+#include "NodeBST.cpp"
+#include "Funcionario.h"
+#include "Funcionario.cpp"
 
 // Prototipacao
 void PrintNode(NodeBST* node);
@@ -33,12 +36,36 @@ void PrintNode(NodeBST* node)
 		<< " Altura: " << node->GetHeight()	<< '\n';
 }
 
+void CalcMediaMenu(BST* bst)
+{
+	std::string nome;
+	std::cout << "Inserir nome: ";
+	std::cin >> nome;
+	bst->CalcMedia(nome);
+}
+
+void QntdJornadaMenu(BST* bst)
+{
+	int jornada;
+	std::cout << "Inserir jornada: ";
+	std::cin >> jornada;
+	bst->QntdJornada(jornada);
+}
+
+void QntdUniddMenu(BST* bst)
+{
+	std::string unidd;
+	std::cout << "Inserir unidade: ";
+	std::cin >> unidd;
+	bst->QntdUnidd(unidd);
+}
+
 void Insert(BST* bst)
 {
 	float salario;
 	std::string nome;
 	std::string unidade;
-	std::string jornada;
+	int jornada;
 	std::cout << "Inserir nome: ";
 	std::cin >> nome;
 	std::cout << "Inserir salario: ";
@@ -98,13 +125,13 @@ void CreateBST2(BST* bst)
 		std::string del;
 
 		int i = -1;
-		while(getline(ss, del, ','))
-			dadosFunc[i++] = del;
+		while(getline(ss, del,  ','))
+			//dadosFunc[3] = stoi(del);
 
 		funcLinha.SetNome(dadosFunc[0]);
 		funcLinha.SetUnidd(dadosFunc[2]);
-		funcLinha.SetJornada(dadosFunc[3]);
-		
+		funcLinha.SetJornada(stoi(dadosFunc[3])); 
+
 		NodeBST* node = bst->Insert(std::stof(dadosFunc[1]), funcLinha);
 	}
 }
@@ -131,6 +158,8 @@ void Search(BST* bst)
 	else
 		std::cout << "*** ERROR! Couldn't find node!\n";
 }
+
+
 
 void Predecessor(BST* bst)
 {
@@ -212,18 +241,27 @@ void TraverseBST(NodeBST* node)
 }
 */
 
+void b_maiorSalario (BST * bst)
+{
+	std::cout << bst -> FindMax() -> GetFunc().GetNome() << std::endl;
+}
+
+void b_menorSalario (BST * bst)
+{
+	std::cout << bst -> FindMin() -> GetFunc().GetNome() << std::endl;
+}
+
 int main()
 {
-	 
 	BST* bst = new BST();
   
 	int option = 0;
 	do
 	{
 		std::cout << "*** BST Tree ***\n"
-			<< "[1] Buscar o nome das pessoas com o maior salario\n"
-			<< "[2] Buscar o nome das pessoas com o menor salario\n"
-			<< "[3] Média gasta em cada cargo por hora (salario/hora)\n"
+			<< "[1] Buscar o nome da pessoa com o maior salario\n"
+			<< "[2] Buscar o nome da pessoa com o menor salario\n"
+			<< "[3] Média gasta por hora de determinado Funcionário(salario/hora)\n"
 			<< "[4] Quantas pessoas tem a mesma hora de jornada\n"
 			<< "[5] Quantas pessoas trabalham na mesma unidade\n"
 			<< "[6] Finalizar programa\nOption: ";
@@ -232,11 +270,11 @@ int main()
 
 		switch (option)
 		{
-		// case 1: função(atributo); break;
-		// case 2: função(atributo); break;
-		// case 3: função(atributo); break;
-		// case 4: função(atributo); break;
-		// case 5: função(atributo); break;
+		case 1: b_maiorSalario (bst); break;
+		case 2: b_menorSalario (bst); break;
+		case 3: CalcMediaMenu(bst); break;
+		case 4: QntdJornadaMenu(bst); break;
+		case 5: QntdUniddMenu(bst); break;
 		}
 
 		std::cout << '\n';

@@ -4,10 +4,10 @@
 Funcionario::Funcionario() {
   f_nome      = "";
   f_unidade   = "";
-  f_jornada   = "";
+  f_jornada   = 0;
 }
 
-Funcionario::Funcionario(std::string nome, std::string unidade, std::string jornada) {
+Funcionario::Funcionario(std::string nome, std::string unidade, int jornada) {
   f_nome      = nome;
   f_unidade   = unidade;
   f_jornada   = jornada;
@@ -31,9 +31,9 @@ void Funcionario::SetUnidd(std::string unidade){
 }
 
 // Jornada do funcionario
-std::string Funcionario::GetJornada(){
+int Funcionario::GetJornada(){
   return f_jornada;
 }
-void Funcionario::SetJornada(std::string jornada){
+void Funcionario::SetJornada(int jornada){
   f_jornada = jornada;
 }
