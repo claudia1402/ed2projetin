@@ -1,10 +1,11 @@
 // NodeBST.cpp
+#include "Funcionario.h"
 #include "NodeBST.h"
 #include "Utils.h"
 
-NodeBST::NodeBST(int id, const std::string& data, NodeBST* parent, NodeBST* left, NodeBST* right)
-	: m_ID(id)
-	, m_Data(data)
+NodeBST::NodeBST(float salario, Funcionario func , NodeBST* parent = nullptr, NodeBST* left = nullptr, NodeBST* right = nullptr)
+	: m_Salario(salario)
+	, m_Func(func)
 	, m_Parent(parent)
 	, m_Left(left)
 	, m_Right(right)
@@ -20,28 +21,26 @@ NodeBST::~NodeBST()
 
 void NodeBST::CopyDataFrom(const NodeBST* node)
 {
-	m_ID = node->GetID();
-	m_Data = node->GetData();
+	m_Salario	= node->GetSalario();
+	m_Func		= node->GetFunc();
+	m_Parent	= node->GetParent();
+	m_Left		= node->GetLeft();
+	m_Right		= node->GetRight();
 }
 
-int NodeBST::GetID() const
+int NodeBST::GetSalario() const
 {
-	return m_ID;
+	return m_Salario;
 }
 
-void NodeBST::SetID(int id)
+void NodeBST::SetSalario(float salario)
 {
-	m_ID = id;
+	m_Salario = salario;
 }
 
-std::string NodeBST::GetData() const
+Funcionario NodeBST::GetFunc() const
 {
-	return m_Data;
-}
-
-void NodeBST::SetData(const std::string& data)
-{
-	m_Data = data;
+	return m_Func;
 }
 
 NodeBST* NodeBST::GetParent() const

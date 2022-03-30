@@ -1,6 +1,5 @@
 // BST.cpp
 #include "NodeBST.h"
-#include "NodeBST.cpp"
 #include "BST.h"
 #include "Utils.h"
 #include <sstream>
@@ -68,6 +67,7 @@ int BST::GetHeight() const
 	return m_Root->GetHeight();
 }
 
+/*
 std::string BST::TraverseInOrder() const
 {
 	return TraverseInOrderInternal(m_Root);
@@ -79,7 +79,7 @@ std::string BST::TraverseInOrderInternal(const NodeBST* node) const
 	{
 		std::ostringstream oss;
 		oss << TraverseInOrderInternal(node->GetLeft());
-		oss << node->GetID() << '(' << node->GetData() << ") ";
+		oss << node->GetSalario() << '(' << "Nome: " << node->GetFunc().GetNome() << "Cargo: " << node->GetFunc().GetCargo() << "Salario: " << node->GetFunc().GetSalario() << ") ";
 		oss << TraverseInOrderInternal(node->GetRight());
 		return oss.str();
 	}
@@ -98,7 +98,7 @@ std::string BST::TraversePreOrderInternal(const NodeBST* node) const
 	if (node != nullptr)
 	{
 		std::ostringstream oss;
-		oss << node->GetID() << '(' << node->GetData() << ") ";
+		oss << node->GetSalario() << '(' << "Nome: " << node->GetFunc().GetNome() << "Cargo: " << node->GetFunc().GetCargo() << "Salario: " << node->GetFunc().GetSalario() << ") ";
 		oss << TraversePreOrderInternal(node->GetLeft());
 		oss << TraversePreOrderInternal(node->GetRight());
 		return oss.str();
@@ -120,14 +120,14 @@ std::string BST::TraversePostOrderInternal(const NodeBST* node) const
 		std::ostringstream oss;
 		oss << TraversePostOrderInternal(node->GetLeft());
 		oss << TraversePostOrderInternal(node->GetRight());
-		oss << node->GetID() << '(' << node->GetData() << ") ";
+		oss << node->GetSalario() << '(' << "Nome: " << node->GetFunc().GetNome() << "Cargo: " << node->GetFunc().GetCargo() << "Salario: " << node->GetFunc().GetSalario() << ") ";
 		return oss.str();
 	}
 
 	//return "null ";
 	return "";
 }
-
+*/
 NodeBST* BST::FindMin() const
 {
 	return FindMinInternal(m_Root);
@@ -158,9 +158,9 @@ NodeBST* BST::FindMaxInternal(NodeBST* node) const
 		return FindMaxInternal(node->GetRight());
 }
 
-NodeBST* BST::Predecessor(int id) const
+NodeBST* BST::Predecessor(float salario) const
 {
-	NodeBST* node = SearchInternal(m_Root, id);
+	NodeBST* node = SearchInternal(m_Root, salario);
 	return node == nullptr ? nullptr : PredecessorInternal(node);
 }
 
@@ -184,9 +184,9 @@ NodeBST* BST::PredecessorInternal(NodeBST* node) const
 	}
 }
 
-NodeBST* BST::Successor(int id) const
+NodeBST* BST::Successor(float salario) const
 {
-	NodeBST* node = SearchInternal(m_Root, id);
+	NodeBST* node = SearchInternal(m_Root, salario);
 	return node == nullptr ? nullptr : SuccessorInternal(node);
 }
 
@@ -210,12 +210,12 @@ NodeBST* BST::SuccessorInternal(NodeBST* node) const
 	}
 }
 
-NodeBST* BST::SearchIterative(int id) const
+NodeBST* BST::SearchIterative(float salario) const
 {
 	NodeBST* current = m_Root;
-	while (current != nullptr && current->GetID() != id)
+	while (current != nullptr && current->GetSalario() != salario)
 	{
-		if (current->GetID() > id)
+		if (current->GetSalario() > salario)
 			current = current->GetLeft();
 		else
 			current = current->GetRight();
@@ -224,26 +224,26 @@ NodeBST* BST::SearchIterative(int id) const
 	return current;
 }
 
-NodeBST* BST::Search(int id) const
+NodeBST* BST::Search(float salario) const
 {
-	return SearchInternal(m_Root, id);
+	return SearchInternal(m_Root, salario);
 }
 
-NodeBST* BST::SearchInternal(NodeBST* node, int &id) const
+NodeBST* BST::SearchInternal(NodeBST* node, float &salario) const
 {
 	if (node == nullptr)
 		return nullptr;
-	else if (node->GetID() == id)
+	else if (node->GetSalario() == salario)
 		return node;
-	else if (node->GetID() > id)
-		return SearchInternal(node->GetLeft(), id);
+	else if (node->GetSalario() > salario)
+		return SearchInternal(node->GetLeft(), salario);
 	else
-		return SearchInternal(node->GetRight(), id);
+		return SearchInternal(node->GetRight(), salario);
 }
 
-NodeBST* BST::InsertIterative(int id, const std::string& data)
+NodeBST* BST::InsertIterative(float salario, Funcionario funcNovo)
 {
-	NodeBST* newNode = new NodeBST(id, data);
+	NodeBST* newNode = new NodeBST(salario, funcNovo);
 	if (IsEmpty())
 	{
 		m_Root = newNode;
@@ -257,13 +257,13 @@ NodeBST* BST::InsertIterative(int id, const std::string& data)
 			currentParent = current;
 
 			// Error! Cannot insert duplicate.
-			if (current->GetID() == id)
+			if (current->GetSalario() == salario)
 			{
 				delete newNode;
 				return nullptr;
 			}
 
-			if (current->GetID() > id)
+			if (current->GetSalario() > salario)
 				current = current->GetLeft();
 			else
 				current = current->GetRight();
@@ -271,7 +271,7 @@ NodeBST* BST::InsertIterative(int id, const std::string& data)
 
 		if (currentParent != nullptr)
 		{
-			if (currentParent->GetID() > id)
+			if (currentParent->GetSalario() > salario)
 				currentParent->SetLeft(newNode);
 			else
 				currentParent->SetRight(newNode);
@@ -281,37 +281,37 @@ NodeBST* BST::InsertIterative(int id, const std::string& data)
 	return newNode;
 }
 
-NodeBST* BST::Insert(int id, const std::string& data)
+NodeBST* BST::Insert(float salario, Funcionario funcNovo)
 {
 	if (IsEmpty())
 	{
-		m_Root = new NodeBST(id, data);
+		m_Root = new NodeBST(salario, funcNovo);
 		return m_Root;
 	}
 
-	return InsertInternal(m_Root, nullptr, id, data);
+	return InsertInternal(m_Root, nullptr, salario, funcNovo);
 }
 
-NodeBST* BST::InsertInternal(NodeBST* node, NodeBST* parent, int id, const std::string& data)
+NodeBST* BST::InsertInternal(NodeBST* node, NodeBST* parent, float salario, Funcionario funcNovo)
 {
 	if (node == nullptr)
-		node = new NodeBST(id, data, parent);
-	else if (node->GetID() == id)
+		node = new NodeBST(salario, funcNovo, parent);
+	else if (node->GetSalario() == salario)
 		return nullptr; // Error! Cannot insert duplicate.
-	else if (node->GetID() > id)
-		node->SetLeft(InsertInternal(node->GetLeft(), node, id, data));
-	else if (node->GetID() < id)
-		node->SetRight(InsertInternal(node->GetRight(), node, id, data));
+	else if (node->GetSalario() > salario)
+		node->SetLeft(InsertInternal(node->GetLeft(), node, salario, funcNovo));
+	else if (node->GetSalario() < salario)
+		node->SetRight(InsertInternal(node->GetRight(), node, salario, funcNovo));
 
 	return node;
 }
 
-bool BST::RemoveIterative(int id)
+bool BST::RemoveIterative(float salario)
 {
 	NodeBST* current = m_Root;
-	while (current != nullptr && current->GetID() != id)
+	while (current != nullptr && current->GetSalario() != salario)
 	{
-		if (current->GetID() > id)
+		if (current->GetSalario() > salario)
 			current = current->GetLeft();
 		else
 			current = current->GetRight();
@@ -324,21 +324,21 @@ bool BST::RemoveIterative(int id)
 	return true;
 }
 
-void BST::Remove(int id)
+void BST::Remove(float salario)
 {
-	RemoveInternal(m_Root, id);
+	RemoveInternal(m_Root, salario);
 }
 
-NodeBST* BST::RemoveInternal(NodeBST* node, int id)
+NodeBST* BST::RemoveInternal(NodeBST* node, float salario)
 {
 	if (node == nullptr)
 		return nullptr;
-	else if (node->GetID() == id)
+	else if (node->GetSalario() == salario)
 		node = RemoveNode(node);
-	else if (node->GetID() > id)
-		node->SetLeft(RemoveInternal(node->GetLeft(), id));
+	else if (node->GetSalario() > salario)
+		node->SetLeft(RemoveInternal(node->GetLeft(), salario));
 	else
-		node->SetRight(RemoveInternal(node->GetRight(), id));
+		node->SetRight(RemoveInternal(node->GetRight(), salario));
 	
 	return node;
 }
@@ -379,12 +379,12 @@ NodeBST* BST::RemoveNode(NodeBST* node)
 		// To remove the node, we are reducing the problem to Case 3.
 		// In this case, predecessor is located in the node's left child/subtree and
 		// is the node that has no right child/subtree.
-		NodeBST* predecessor = Predecessor(node->GetID());
+		NodeBST* predecessor = Predecessor(node->GetSalario());
 
 		// Instead of only updating pointers, we are copying the data from the
 		// predecessor to the node pointer and then we remove the predecessor node.
 		node->CopyDataFrom(predecessor);
-		node->SetLeft(RemoveInternal(node->GetLeft(), predecessor->GetID()));
+		node->SetLeft(RemoveInternal(node->GetLeft(), predecessor->GetSalario()));
 	}
 
 	return node;

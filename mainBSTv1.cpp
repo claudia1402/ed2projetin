@@ -1,29 +1,57 @@
 // mainBST.cpp
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <fstream>
 #include "BST.h"
-#include "BST.cpp"
+#include "Arquivo.h"
+#include "vector"
+
+
+// Prototipacao
+void PrintNode(NodeBST* node);
+void Insert(BST* bst);
+void CreateBST(BST* bst);
+void Remove(BST* bst);
+void Search(BST* bst);
+void Predecessor(BST* bst);
+void Successor(BST* bst);
+void FindMin(BST* bst);
+void FindMax(BST* bst);
 
 
 void PrintNode(NodeBST* node)
 {
 	if (node == nullptr) return;
-	std::cout << "N:" << node->GetID()
-		<< "(" << node->GetData() << ")"
-		<< " Parent:" << (node->GetParent() != nullptr ? node->GetParent()->GetID() : -1)
-		<< " Left:" << (node->GetLeft() != nullptr ? node->GetLeft()->GetID() : -1)
-		<< " Right:" << (node->GetRight() != nullptr ? node->GetRight()->GetID() : -1)
-		<< " Degree: " << node->GetDegree()
-		<< " Depth: " << node->GetDepth()
-		<< " Height: " << node->GetHeight() << '\n';
+	std::cout << "Salario:" << node->GetSalario()
+		<< "(" << "Nome:" << node->GetFunc().GetNome() << "Unidade:" << node->GetFunc().GetUnidd() << "Jornada:" << node->GetFunc().GetJornada() << ")"
+		<< " Pai:" << (node->GetParent() != nullptr ? node->GetParent()->GetSalario() : -1)
+		<< "Filho esquerdo:" << (node->GetLeft() != nullptr ? node->GetLeft()->GetSalario() : -1)
+		<< " Filho direito:" << (node->GetRight() != nullptr ? node->GetRight()->GetSalario() : -1)
+		<< " Grau: " << node->GetDegree()
+		<< " Profundidade: " << node->GetDepth()
+		<< " Altura: " << node->GetHeight()	<< '\n';
 }
 
 void Insert(BST* bst)
 {
-	int num;
-	std::cout << "Insert number: ";
-	std::cin >> num;
-	NodeBST* node = bst->Insert(num, std::to_string(num));
+	float salario;
+	std::string nome;
+	std::string unidade;
+	std::string jornada;
+	std::cout << "Inserir nome: ";
+	std::cin >> nome;
+	std::cout << "Inserir salario: ";
+	std::cin >> salario;
+	std::cout << "Inserir unidade: ";
+	std::cin >> unidade;
+	std::cout << "Inserir jornada: ";
+	std::cin >> jornada;
+	Funcionario func;
+	func.SetNome(nome);
+	func.SetUnidd(unidade);
+	func.SetJornada(jornada);
+	NodeBST* node = bst->Insert(salario, func);
 	if (node)
 	{
 		std::cout << "Node inserted:\n";
@@ -31,6 +59,54 @@ void Insert(BST* bst)
 	}
 	else
 		std::cout << "*** ERROR! Couldn't insert node!\n";
+}
+
+void CreateBST(BST* bst)
+{
+	std::fstream fin;
+	std::vector<std::string> row;
+	std::string line, word, temp;
+
+	fin.open("askojdas.csv", std::fstream::in);
+
+	while (fin >> temp) 
+	{
+		row.clear();
+		getline(fin, line);
+		std::istringstream s(line);
+		while (getline(s, word, ','))
+		{
+			row.push_back(word);
+		}
+	}
+}
+
+void CreateBST2(BST* bst)
+{
+	std::string		dadosFunc[4];
+	std::string		line;
+	std::ifstream	arq;
+	Funcionario		funcLinha;
+
+	arq.open("remuneracao.csv", std::fstream::in);
+
+	while(!arq.eof())  //laco de funcionarios
+	{
+		std::getline(arq, line); // recebe cada linha a partir do
+
+		std::istringstream ss(line);
+		std::string del;
+
+		int i = -1;
+		while(getline(ss, del, ','))
+			dadosFunc[i++] = del;
+
+		funcLinha.SetNome(dadosFunc[0]);
+		funcLinha.SetUnidd(dadosFunc[2]);
+		funcLinha.SetJornada(dadosFunc[3]);
+		
+		NodeBST* node = bst->Insert(std::stof(dadosFunc[1]), funcLinha);
+	}
 }
 
 void Remove(BST* bst)
@@ -109,7 +185,7 @@ void FindMax(BST* bst)
 	else
 		std::cout << "*** ERROR! Couldn't find maximum (tree is probably empty...)\n";
 }
-
+/*
 void TraverseInOrder(BST* bst)
 {
 	std::cout << bst->TraverseInOrder() << '\n';
@@ -134,57 +210,38 @@ void TraverseBST(NodeBST* node)
 		TraverseBST(node->GetRight());
 	}
 }
+*/
 
 int main()
 {
 	 
 	BST* bst = new BST();
-
-	int values[] = { 30, 15, 38, 10, 20, 51, 8, 16, 27 };
-	for (int value : values)
-		bst->Insert(value, std::to_string(value));
-
-	
+  
 	int option = 0;
 	do
 	{
 		std::cout << "*** BST Tree ***\n"
-			<< "[1] Insert\n"
-			<< "[2] Remove\n"
-			<< "[3] Search\n"
-			<< "[4] Predecessor\n"
-			<< "[5] Successor\n"
-			<< "[6] Find minimum\n"
-			<< "[7] Find maximum\n"
-			<< "[8] Traverse in-order\n"
-			<< "[9] Traverse pre-order\n"
-			<< "[10] Traverse post-order\n"
-			<< "[11] In-order with all node data\n"
-			<< "[12] Clear\n"
-			<< "[0] Exit\nOption: ";
+			<< "[1] Buscar o nome das pessoas com o maior salario\n"
+			<< "[2] Buscar o nome das pessoas com o menor salario\n"
+			<< "[3] Média gasta em cada cargo por hora (salario/hora)\n"
+			<< "[4] Quantas pessoas tem a mesma hora de jornada\n"
+			<< "[5] Quantas pessoas trabalham na mesma unidade\n"
+			<< "[6] Finalizar programa\nOption: ";
 		std::cin >> option;
 		std::cout << '\n';
 
 		switch (option)
 		{
-		case 1: Insert(bst); break;
-		case 2: Remove(bst); break;
-		case 3: Search(bst); break;
-		case 4: Predecessor(bst); break;
-		case 5: Successor(bst); break;
-		case 6: FindMin(bst); break;
-		case 7: FindMax(bst); break;
-		case 8: TraverseInOrder(bst); break;
-		case 9: TraversePreOrder(bst); break;
-		case 10: TraversePostOrder(bst); break;
-		case 11: TraverseBST(bst->GetRoot()); break;
-		case 12: bst->Clear(); break;
+		// case 1: função(atributo); break;
+		// case 2: função(atributo); break;
+		// case 3: função(atributo); break;
+		// case 4: função(atributo); break;
+		// case 5: função(atributo); break;
 		}
 
 		std::cout << '\n';
-	} while (option != 0);
+	} while (option != 6);
 
 	delete bst;
 	return 0;
 }
-

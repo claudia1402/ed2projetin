@@ -1,22 +1,23 @@
+
 // NodeBST.h
 #ifndef __NODE_BST_H__
 #define __NODE_BST_H__
 
 #include <string>
+#include "Funcionario.h"
 
 class NodeBST
 {
 public:
-	NodeBST(int id, const std::string& data, NodeBST* parent = nullptr, NodeBST* left = nullptr, NodeBST* right = nullptr);
+	NodeBST(float salario, Funcionario func , NodeBST* parent = nullptr, NodeBST* left = nullptr, NodeBST* right = nullptr);
 	~NodeBST();
 
 	void CopyDataFrom(const NodeBST* node);
 
-	int GetID() const;
-	void SetID(int id);
+	int GetSalario() const;
+	void SetSalario(float salario);
 
-	std::string GetData() const;
-	void SetData(const std::string& data);
+	Funcionario GetFunc() const;
 
 	NodeBST* GetParent() const;
 	void SetParent(NodeBST* parent);
@@ -35,9 +36,8 @@ public:
 	int GetHeight() const;
 
 private:
-	int m_ID;
-	std::string m_Data;
-	
+	float m_Salario;
+	Funcionario m_Func;
 	NodeBST* m_Parent;
 	NodeBST* m_Left;
 	NodeBST* m_Right;
