@@ -468,7 +468,7 @@ float BST::CalcMedia(std::string nome)
 
 float BST::CalcMediaInternal (NodeBST* funcionario)
 {
-	return funcionario -> GetSalario() / funcionario -> GetFunc().GetJornada();
+	return funcionario -> GetSalario() / (funcionario -> GetFunc().GetJornada())*4;
 }
 
 //calcula numero de funcionarios que possuem mesma jornada por meio de um contador para casos iguais
