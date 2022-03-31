@@ -117,31 +117,32 @@ void Insert(BST* bst) // insere elementos na BST
 
 void CreateBST(BST* bst)
 {
-	std::string		dadosFunc[4];
-	std::string		line;
-	std::ifstream	arq;
-	Funcionario		funcLinha;
-
-	arq.open("remuneracao.csv", std::fstream::in);
-
-	while(!arq.eof())  //laco de funcionarios
-	{
-		std::getline(arq, line); // recebe cada linha a partir do
-
-		std::istringstream ss(line);
-		std::string del;
-
-		int i = -1;
-		while(getline(ss, del,  ','))
-			//dadosFunc[3] = stoi(del);
-
-		funcLinha.SetNome(dadosFunc[0]); //
-		funcLinha.SetUnidd(dadosFunc[2]);
-		funcLinha.SetJornada(stoi(dadosFunc[3])); 
-
-		NodeBST* node = bst->Insert(std::stof(dadosFunc[1]), funcLinha);
-	}
+    std::string     dadosFunc[4];
+    std::string     line;
+    std::ifstream   arq;
+    Funcionario     funcLinha;
+ 
+    arq.open("remuneracao.csv", std::fstream::in);
+ 
+    while(!arq.eof())  //laco de funcionarios
+    {
+        std::getline(arq, line); // recebe cada linha a partir do
+ 
+        std::istringstream ss(line);
+        std::string del;
+ 
+        int i = -1;
+        while(getline(ss, del,  ','))
+            dadosFunc[i++] = del;
+ 
+        funcLinha.SetNome(dadosFunc[0]); 
+        funcLinha.SetUnidd(dadosFunc[2]);
+        funcLinha.SetJornada(stoi(dadosFunc[3]));
+ 
+        NodeBST* node = bst->Insert(std::stof(dadosFunc[1]), funcLinha);
+    }
 }
+
 
 void Remove(BST* bst)
 {
